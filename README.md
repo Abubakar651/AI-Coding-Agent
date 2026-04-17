@@ -1,54 +1,71 @@
-# AI Coding Agent
+# 🤖 AI Coding Agent
 
-An AI-powered coding assistant with a VS Code-inspired interface. Ask it to write, read, run, or debug code files — it handles everything autonomously using tool-calling with Groq's LLaMA 3.3 70B. If the code breaks, the agent detects the error and auto-fixes it without any human intervention.
+An autonomous coding assistant that writes, executes, and debugs Python code through natural language — powered by **Groq API (LLaMA 3.3 70B)** and a recursive agentic loop with custom tools.
 
----
-
-## Features
-
-- Natural language interface for file operations (read, write, run, delete)
-- Real-time code execution with output displayed in the UI
-- **Self-healing agent** — automatically detects errors and re-runs fixed code (up to 3 attempts)
-- **run_code** — execute Python snippets directly without saving a file
-- **Click-to-view files** — click any file in the sidebar to preview its contents
-- Persistent conversation memory across sessions
-- VS Code dark-theme UI served via Flask
-- Tool-calling agent — the LLM decides which tool to use automatically
+![Python](https://img.shields.io/badge/Python-3.10+-blue?style=flat-square&logo=python)
+![Flask](https://img.shields.io/badge/Flask-3.1-black?style=flat-square&logo=flask)
+![Groq](https://img.shields.io/badge/Groq-LLaMA%203.3%2070B-orange?style=flat-square)
+![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
 ---
 
-## Tech Stack
+## ✨ Features
+
+- **Natural language interface** — just describe what you want built
+- **Autonomous code execution** — writes, runs, and reads files without you lifting a finger
+- **Self-healing agent** — detects errors and auto-fixes code up to 3 times before asking for help
+- **Inline code runner** — execute Python snippets directly without saving a file
+- **File viewer** — click any workspace file in the sidebar to preview its contents
+- **Persistent memory** — conversation history carried across the session
+- **VS Code-inspired UI** — dark theme, syntax highlighting, copy buttons
+
+---
+
+## 🖥️ Demo
+
+```
+You:  Write a Python script that scrapes the top 5 headlines from a news site
+
+AI:   → install_package(requests, beautifulsoup4)
+      → write_file(scraper.py)
+      → run_file(scraper.py)
+      ✓ Here are the top 5 headlines: ...
+```
+
+---
+
+## 🛠️ Tech Stack
 
 | Layer | Technology |
 |---|---|
-| **Backend** | Flask |
-| **AI Model** | Groq API — LLaMA 3.3 70B |
-| **Tool Calling** | Groq native function calling |
-| **Memory** | JSON-based conversation history |
-| **UI** | HTML, CSS, JavaScript |
-| **Config** | python-dotenv |
+| Backend | Python, Flask |
+| AI Model | Groq API — LLaMA 3.3 70B |
+| Tool Calling | Groq native function calling |
+| Memory | JSON-based conversation history |
+| Frontend | HTML, CSS, Vanilla JavaScript |
+| Config | python-dotenv |
 
 ---
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 AI-Coding-Agent/
 ├── app.py              # Flask server + agentic loop
-├── tools.py            # File read/write/run/delete + run_code tools
+├── tools.py            # Custom tools (read, write, run, delete, install)
 ├── memory.py           # Conversation history management
-├── config.py           # Groq client + environment config
-├── requirements.txt
-├── .env.example
+├── config.py           # Groq client configuration
+├── requirements.txt    # Python dependencies
+├── .env.example        # Environment variable template
 └── ui/
-    ├── index.html      # VS Code-style interface
-    ├── style.css       # Dark theme
-    └── script.js       # API communication + file viewer
+    ├── index.html      # VS Code-style chat interface
+    ├── style.css       # Dark theme styling
+    └── script.js       # Frontend logic
 ```
 
 ---
 
-## Setup
+## 🚀 Getting Started
 
 ### 1. Clone the repository
 
@@ -57,11 +74,11 @@ git clone https://github.com/Abubakar651/AI-Coding-Agent.git
 cd AI-Coding-Agent
 ```
 
-### 2. Create and activate virtual environment
+### 2. Create a virtual environment
 
 ```bash
 python3 -m venv venv
-source venv/bin/activate
+source venv/bin/activate        # Windows: venv\Scripts\activate
 ```
 
 ### 3. Install dependencies
@@ -70,24 +87,22 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4. Configure environment variables
+### 4. Set up environment variables
 
 ```bash
 cp .env.example .env
 ```
 
-Edit `.env`:
+Open `.env` and fill in your values:
 
 ```env
 GROQ_API_KEY=your_groq_api_key_here
 WORKSPACE_DIR=/path/to/your/workspace
 ```
 
-Get a free Groq API key at [console.groq.com](https://console.groq.com).
+> Get a free Groq API key at [console.groq.com](https://console.groq.com)
 
----
-
-## Running the App
+### 5. Run the app
 
 ```bash
 python app.py
@@ -97,48 +112,56 @@ Open [http://localhost:5000](http://localhost:5000) in your browser.
 
 ---
 
-## Example Commands
+## 🧰 Available Tools
 
-```
-Write a Python script that prints the Fibonacci sequence up to 100
-Run fibonacci.py
-Write a buggy script and watch the agent auto-fix it
-Run this code: print(2 ** 10)
-List all files in my workspace
-Install the requests library
-```
+| Tool | Description |
+|---|---|
+| `write_file` | Create or update a file in the workspace |
+| `read_file` | Read the contents of a file |
+| `run_file` | Execute a `.py` or `.sh` file and return output |
+| `run_code` | Run a Python snippet directly without saving |
+| `delete_file` | Delete a file from the workspace |
+| `list_files` | List all files and folders in the workspace |
+| `create_folder` | Create a new folder |
+| `install_package` | Install a Python package via pip |
 
 ---
 
-## How It Works
+## ⚙️ How It Works
 
 ```
-User types a request
-         │
-         ▼
+User sends a message
+        │
+        ▼
 Flask receives POST /chat
-         │
-         ▼
-Groq LLaMA 3.3 70B decides which tool to call
-         │
-         ▼
-Tool executes (read / write / run / delete / run_code)
-         │
-         ▼
-If error → agent auto-fixes and retries (up to 3x)
-         │
-         ▼
-Final response + tool output displayed in UI
+        │
+        ▼
+LLaMA 3.3 70B decides which tool(s) to call
+        │
+        ▼
+Tool executes in the workspace
+        │
+        ▼
+If error → agent analyzes, fixes, and retries (up to 3x)
+        │
+        ▼
+Final response displayed in the UI
 ```
 
 ---
 
-## API Endpoints
+## 💬 Example Prompts
 
-| Endpoint | Method | Description |
-|---|---|---|
-| `/` | GET | Serves the UI |
-| `/chat` | POST | Send a message to the agent |
-| `/clear` | POST | Clear conversation memory |
-| `/files` | GET | List workspace files |
-| `/file/<name>` | GET | Read a specific file |
+```
+Write a Python script that generates a random password
+Run the script and show me the output
+Install the pandas library and create a CSV file with dummy data
+List all files in my workspace
+What is a recursive function? Explain with an example
+```
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
