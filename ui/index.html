@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Coding Agent</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"/>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <div class="logo">
+        <span class="logo-icon">⬡</span>
+        <span>AI Coding Agent</span>
+      </div>
+      <div class="sidebar-section">
+        <p class="sidebar-label">WORKSPACE FILES</p>
+        <ul id="file-list"><li class="loading">Loading...</li></ul>
+      </div>
+      <div class="sidebar-actions">
+        <button onclick="loadFiles()">⟳ Refresh Files</button>
+        <button onclick="clearMemory()">✕ Clear Memory</button>
+      </div>
+      <div class="sidebar-footer">
+        <span>Powered by Groq · LLaMA 3.3 70B</span>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="topbar">
+        <span class="tab active">💬 Chat</span>
+        <span class="status" id="status">● Ready</span>
+      </div>
+
+      <div class="chat-window" id="chat-window">
+        <div class="message assistant">
+          <div class="avatar">AI</div>
+          <div class="bubble">
+            Hello! I'm your AI Coding Agent. I can write, read, run, and debug files — and automatically fix errors without you having to ask. What would you like to build?
+          </div>
+        </div>
+      </div>
+
+      <div class="input-area">
+        <textarea
+          id="user-input"
+          placeholder="Ask me to write code, run a file, install a package..."
+          rows="1"
+        ></textarea>
+        <button id="send-btn" onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- File viewer modal -->
+  <div class="modal-overlay" id="file-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <span id="modal-filename"></span>
+        <button onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <pre><code id="modal-content"></code></pre>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="/static/script.js"></script>
+</body>
+</html>
